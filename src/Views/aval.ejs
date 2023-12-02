@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        thead {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        td:first-child {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de Usuarios</h1>
+    <table>
+        <thead>
+            <th>ID</th>
+            <th>Nota</th>
+            <th>Usuario Id</th>
+            <th>Grupo Id</th>
+        </thead>
+        <tbody>
+            <% for(var i = 0; i < users.length; i++){ %>
+                <tr>
+                    <td><%= users[i].id %></td>
+                    <td><%= users[i].nota %></td>
+                    <td><%= users[i].usuarioId %></td>
+                    <td><%= users[i].grupoId %></td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</body>
+</html>

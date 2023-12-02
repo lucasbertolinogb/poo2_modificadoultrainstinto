@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id              String          @id @default(uuid())        //hash de id
+  nome            String?
+  email           String          @unique
+  matricula       Int
+  tipoUsuario     Int             @default(0) // devido a erros no postgresql foi trocado de enum para int, 0 = aluno 1 = prof 2 em diante = erro ou futuros tipos
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  avaliacoes      Avaliacao[]     @relation("UsuarioAvaliacoes")
+  grupo           Grupo?           @relation("Membro",fields: [grupoId], references: [id])
+  grupoId         String?
+}
+
+model Grupo {
+  id              String          @id @default(uuid())         //hash de id
+  nome            String
+  liderNome       String          @default("Nao Informado")
+  membros         Usuario[]       @relation("Membro")
+  estande         Int
+  diaApresentacao DateTime
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  avaliacoes      Avaliacao[]     @relation("Notas")
+
+  @@unique([estande, diaApresentacao])
+}
+
+model Avaliacao {
+  id          String              @id @default(uuid())         //hash de id
+  nota        Float 
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  usuario     Usuario             @relation("UsuarioAvaliacoes",fields: [usuarioId], references: [id])
+  usuarioId   String
+  grupo       Grupo               @relation("Notas",fields: [grupoId], references: [id])
+  grupoId     String
+
+  @@unique([usuarioId, grupoId])
+}
